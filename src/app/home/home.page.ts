@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
 
   keyword = '';
 
-  userBooks = [];
+  userBooks = [{bName: ''}];
 
   newBook = {
     bName: '',

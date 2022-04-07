@@ -16,7 +16,9 @@
 </ion-header>
 
 <ion-content style="--background: #FAF0E6; position: relative">
-  <div style="width: 100%; padding: 16px 0px 0px 16px; display: flex; flex-wrap: wrap; align-items: center;">
+  <div *ngIf="!userBooks[0]['bName']" style="width: 100%; text-align: center; font-size: 17px; color: #333333">Looks like it's empty here. What are you waiting for? Start reading!</div>
+
+  <div *ngIf="userBooks[0]['bName']" style="width: 100%; padding: 16px 0px 0px 16px; display: flex; flex-wrap: wrap; align-items: center;">
     <div *ngFor="let eve of returnedArray()" [ngStyle]="{'width': ((platform.width() - 16)/rounder(platform.width() / 250)) - 16 + 'px'}" style="background: #D8D2C1; border-radius: 16px; margin-right: 16px; margin-bottom: 16px">
       <img style="width: 100%; height: auto" src="" alt="">
       <div style="padding: 16px">
