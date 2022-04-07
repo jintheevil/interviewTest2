@@ -1,20 +1,97 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+<ion-header class="ion-no-border">
+  <div style="width: 100%; background: #FAF0E6; text-align: center; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+    <div (click)="logOut()" style="height: 48px; width: 48px; background: #FD7272; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+      <ion-icon style="font-size: 32px; color: #fafafa; margin-left: 4px" name="log-out-outline"></ion-icon>
+    </div>
+    <div class="header">BookKeeper</div>
+    <div (click)="archives()" style="height: 48px; width: 48px; background: #D8D2C1; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+      <ion-icon style="font-size: 32px; color: #333333" name="library-outline"></ion-icon>
+    </div>
+  </div>
+  <div style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 16px 30vw; background: #FAF0E6">
+    <ion-input [(ngModel)]="keyword" class="searchbar" type="text" placeholder="Search">
+      <ion-icon style="margin-left: 8px; font-size: 16px;" slot="start" name="search-outline"></ion-icon>
+    </ion-input>
+  </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content style="--background: #FAF0E6; position: relative">
+  <div style="width: 100%; padding: 16px 0px 0px 16px; display: flex; flex-wrap: wrap; align-items: center;">
+    <div *ngFor="let eve of returnedArray()" [ngStyle]="{'width': ((platform.width() - 16)/rounder(platform.width() / 250)) - 16 + 'px'}" style="background: #D8D2C1; border-radius: 16px; margin-right: 16px; margin-bottom: 16px">
+      <img style="width: 100%; height: auto" src="" alt="">
+      <div style="padding: 16px">
+        <div style="font-size: 17px; margin-bottom: 4px; color: #5A524A; font-weight: 600;">{{eve['bName']}}</div>
+        <div style="font-size: 17px; margin-bottom: 4px; color: #5A524A; font-weight: 600;">{{eve['bAuthor']}}</div>
+        <div style="font-size: 15px; margin-bottom: 8px; color: #5A524A; font-weight: 100">Pages Read: {{eve['pagesRead']}} / {{eve['bPages']}}</div>
+        <div style="display: flex; align-items: center;">
+          <div (click)="archiveBook(eve)" style="height: 32px; width: 32px; border-radius: 50%; background: #7DC9FD; display: flex; align-items: center; justify-content: center; margin-left: auto">
+            <ion-icon style="font-size: 16px; color: #fafafa" slot="start" name="checkmark-outline"></ion-icon>
+          </div>
+          <div (click)="editBook(eve)" style="height: 32px; width: 32px; border-radius: 50%; background: #7FD1AE; display: flex; align-items: center; justify-content: center; margin-left: 16px">
+            <ion-icon style="font-size: 16px; color: #fafafa" slot="start" name="create-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div id="addBook" [ngClass]="platform.width() > 768 ? 'addBookLarge' : 'addBook'">
+    <ion-icon style="font-size: 32px;" slot="start" name="add-outline"></ion-icon>
+  </div>
+
+  <div id="editBook" style="color: transparent; visibility: hidden">1</div>
 </ion-content>
+
+<ion-modal trigger="addBook" style="--background: #faf0e6; --height: 500px; --width: 350px;">
+  <ng-template>
+    <div style="width: 100%; background: #D8D2C1; color: #5A524A; padding: 16px; font-size: 17px; font-weight: 600">Add Book to Collection.</div>
+    <div style="width: 100%; padding: 16px; margin-bottom: auto;">
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Name:</div>
+        <ion-input [(ngModel)]="newBook['bName']" class="searchbar" type="text" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Author:</div>
+        <ion-input [(ngModel)]="newBook['bAuthor']" class="searchbar" type="text" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Pages:</div>
+        <ion-input [(ngModel)]="newBook['bPages']" class="searchbar" type="number" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Pages Read:</div>
+        <ion-input [(ngModel)]="newBook['pagesRead']" class="searchbar" type="number" placeholder="Awesome Input"></ion-input>
+      </div>
+    </div>
+    <div style="padding: 8px 0px; width: 100%; display: flex; align-items: center; justify-content: center;">
+      <div (click)="addBookToCollection()" style="padding: 8px 32px; background: #7fd1ae; color: #fafafa; border-radius: 10px; width: fit-content;">Add To Collection</div>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal trigger="editBook" style="--background: #faf0e6; --height: 500px; --width: 350px;">
+  <ng-template>
+    <div style="width: 100%; background: #D8D2C1; color: #5A524A; padding: 16px; font-size: 17px; font-weight: 600">Add Book to Collection.</div>
+    <div style="width: 100%; padding: 16px; margin-bottom: auto;">
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Name:</div>
+        <ion-input [(ngModel)]="editingBook['bName']" class="searchbar" type="text" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Author:</div>
+        <ion-input [(ngModel)]="editingBook['bAuthor']" class="searchbar" type="text" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Book Pages:</div>
+        <ion-input [(ngModel)]="editingBook['bPages']" class="searchbar" type="number" placeholder="Awesome Input"></ion-input>
+      </div>
+      <div style="margin-bottom: 16px">
+        <div style="font-size: 15px; margin-bottom: 5px; color: #5a524a">Pages Read:</div>
+        <ion-input [(ngModel)]="editingBook['pagesRead']" class="searchbar" type="number" placeholder="Awesome Input"></ion-input>
+      </div>
+    </div>
+    <div style="padding: 8px 0px; width: 100%; display: flex; align-items: center; justify-content: center;">
+      <div (click)="confirmEdits()" style="padding: 8px 32px; background: #7fd1ae; color: #fafafa; border-radius: 10px; width: fit-content;">Confirm Edits</div>
+    </div>
+  </ng-template>
+</ion-modal>

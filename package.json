@@ -20,7 +20,9 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "@ionic/angular": "^6.0.0",
+    "firebase": "^8.6.7",
     "rxjs": "~6.6.0",
+    "sweetalert": "^2.1.2",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
