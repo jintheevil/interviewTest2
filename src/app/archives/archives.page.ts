@@ -9,36 +9,43 @@ import { firebaseConfig } from '../home/app.firebase.config';
   styleUrls: ['./archives.page.scss'],
 })
 export class ArchivesPage implements OnInit {
+  constructor(public nav: NavController) {}
 
-  constructor(public nav: NavController) { }
+  keyword = '';
 
-  keyword = ''
+  archive = [];
 
-  archive = []
-
-  returnedArchive(){
-    return this.lengthOf(this.archive) ? this.archive.filter(a => (a['bName'] + a['bAuthor']).toLowerCase().includes(this.keyword.toLowerCase())) : [];
+  returnedArchive() {
+    return this.lengthOf(this.archive)
+      ? this.archive.filter((a) =>
+          (a['bName'] + a['bAuthor'])
+            .toLowerCase()
+            .includes(this.keyword.toLowerCase())
+        )
+      : [];
   }
 
-  lengthOf(x){
+  lengthOf(x) {
     return x ? Object.keys(x).length : 0;
   }
 
-  back(){
-    this.nav.pop()
+  back() {
+    this.nav.pop();
   }
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(a => {
-      if (a){
-        firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/archive').once('value', data => {
-          this.archive = Object.values(data.val())
-          console.log(this.archive)
-        })
+    firebase.auth().onAuthStateChanged((a) => {
+      if (a) {
+        firebase
+          .database()
+          .ref('users/' + firebase.auth().currentUser.uid + '/archive')
+          .once('value', (data) => {
+            this.archive = Object.values(data.val());
+            console.log(this.archive);
+          });
       } else {
-        this.nav.navigateRoot('login')
+        this.nav.navigateRoot('login');
       }
-    })
+    });
   }
-
 }

@@ -1,14 +1,18 @@
 <ion-header class="ion-no-border">
-  <div style="width: 100%; background: #FAF0E6; text-align: center; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
-    <div (click)="back()" style="height: 48px; width: 48px; background: #FD7272; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+  <div
+    style="width: 100%; background: #FAF0E6; text-align: center; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+    <div (click)="back()"
+      style="height: 48px; width: 48px; background: #FD7272; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
       <ion-icon style="font-size: 32px; color: #fafafa; margin-right: 4px" name="chevron-back-outline"></ion-icon>
     </div>
     <div class="header">Archives</div>
-    <div style="height: 48px; width: 48px; background: #D8D2C1; border-radius: 50px; display: flex; align-items: center; justify-content: center; visibility: hidden;">
+    <div
+      style="height: 48px; width: 48px; background: #D8D2C1; border-radius: 50px; display: flex; align-items: center; justify-content: center; visibility: hidden;">
       <ion-icon style="font-size: 32px; color: #333333" name="library-outline"></ion-icon>
     </div>
   </div>
-  <div style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 16px 30vw; background: #FAF0E6">
+  <div
+    style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 16px 30vw; background: #FAF0E6">
     <ion-input [(ngModel)]="keyword" class="searchbar" type="text" placeholder="Search">
       <ion-icon style="margin-left: 8px; font-size: 16px;" slot="start" name="search-outline"></ion-icon>
     </ion-input>
@@ -17,7 +21,8 @@
 
 <ion-content style="--background: #faf0e6">
   <div style="width: 100%; padding: 16px; display: flex; flex-direction: column; align-items: center;">
-    <div *ngFor="let eve of returnedArchive()" style="width: 60%; min-width: 240px; background: #D8D2C1; margin-bottom: 16px; padding: 16px; border-radius: 15px;">
+    <div *ngFor="let eve of returnedArchive()"
+      style="width: 60%; min-width: 240px; background: #D8D2C1; margin-bottom: 16px; padding: 16px; border-radius: 15px;">
       <div style="font-size: 17px; color: #5A524A; font-weight: 600; margin-bottom: 5px;">{{eve['bName']}}</div>
       <div style="font-size: 17px; color: #5A524A; font-weight: 600; margin-bottom: 5px">{{eve['bAuthor']}}</div>
       <div style="font-size: 15px; color: #5A524A; font-weight: 100;">Book Pages: {{eve['bPages']}}</div>

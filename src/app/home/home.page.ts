@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
 
   keyword = '';
 
-  userBooks = [{bName: ''}];
+  userBooks = [{ bName: '' }];
 
   newBook = {
     bName: '',
@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
 
   addBookToCollection() {
     if (this.newBook['pagesRead'] > this.newBook['bPages']) {
-      console.log (this.newBook)
+      console.log(this.newBook);
       swal({
         title: 'Read pages exceed book pages',
         text: 'The numbers are kinda weird here...',
@@ -75,7 +75,7 @@ export class HomePage implements OnInit {
         bAuthor: '',
         bPages: 0,
         pagesRead: 0,
-      }
+      };
       this.modal.dismiss();
     }
   }
@@ -99,22 +99,30 @@ export class HomePage implements OnInit {
         icon: 'error',
         timer: 2000,
       });
-    } else if ((this.editingBook['pagesRead'] == this.editingBook['bPages'])) {
+    } else if (this.editingBook['pagesRead'] == this.editingBook['bPages']) {
       swal({
         title: 'Congratulations on finishing the book!',
         icon: 'success',
         timer: 2000,
       }).then(() => {
         let key = firebase
-        .database()
-        .ref('users/' + firebase.auth().currentUser.uid + '/archive')
-        .push(this.editingBook).key;
-      firebase
-        .database()
-        .ref('users/' + firebase.auth().currentUser.uid + '/archive/' + key)
-        .update({ id: key });
-      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/books/' + this.editingBook['id']).remove()
-      this.modal.dismiss()
+          .database()
+          .ref('users/' + firebase.auth().currentUser.uid + '/archive')
+          .push(this.editingBook).key;
+        firebase
+          .database()
+          .ref('users/' + firebase.auth().currentUser.uid + '/archive/' + key)
+          .update({ id: key });
+        firebase
+          .database()
+          .ref(
+            'users/' +
+              firebase.auth().currentUser.uid +
+              '/books/' +
+              this.editingBook['id']
+          )
+          .remove();
+        this.modal.dismiss();
       });
     } else {
       firebase
@@ -130,11 +138,11 @@ export class HomePage implements OnInit {
     }
   }
 
-  archiveBook(x){
+  archiveBook(x) {
     swal({
       title: 'Congratulations on finishing the book!',
       icon: 'success',
-      timer: 2000
+      timer: 2000,
     }).then(() => {
       let key = firebase
         .database()
@@ -144,8 +152,11 @@ export class HomePage implements OnInit {
         .database()
         .ref('users/' + firebase.auth().currentUser.uid + '/archive/' + key)
         .update({ id: key });
-      firebase.database().ref('users/' + firebase.auth(). currentUser.uid + '/books/' + x['id']).remove()
-    })
+      firebase
+        .database()
+        .ref('users/' + firebase.auth().currentUser.uid + '/books/' + x['id'])
+        .remove();
+    });
   }
 
   returnedArray() {
@@ -168,14 +179,17 @@ export class HomePage implements OnInit {
     console.log(1);
   }
 
-  archives(){
-    this.nav.navigateForward('archives')
+  archives() {
+    this.nav.navigateForward('archives');
   }
 
-  logOut(){
-    firebase.auth().signOut().then(() => {
-      this.nav.navigateRoot('login')
-    })
+  logOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.nav.navigateRoot('login');
+      });
   }
 
   ngOnInit() {
@@ -190,7 +204,7 @@ export class HomePage implements OnInit {
             });
         });
       } else {
-        this.nav.navigateRoot('login')
+        this.nav.navigateRoot('login');
       }
     });
   }

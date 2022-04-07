@@ -10,13 +10,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  constructor(public nav: NavController) { }
+  constructor(public nav: NavController) {}
 
   user = {
     email: '',
-    password: ''
-  }
+    password: '',
+  };
 
   emailValidator(email) {
     if (email) {
@@ -28,33 +27,33 @@ export class LoginPage implements OnInit {
     }
   }
 
-  login(){
+  login() {
     if (this.emailValidator(this.user.email) == true) {
       firebase
-      .auth()
-      .signInWithEmailAndPassword(this.user['email'], this.user['password'])
-      .then(() => {
-        this.nav.navigateForward('home?id=' + firebase.auth().currentUser.uid);
-      })
-      .catch((error) => {
-        swal({
-          title: 'Unable to login.',
-          icon: 'error',
-          text: 'Please check your credentials.',
-          timer: 3000,
+        .auth()
+        .signInWithEmailAndPassword(this.user['email'], this.user['password'])
+        .then(() => {
+          this.nav.navigateForward(
+            'home?id=' + firebase.auth().currentUser.uid
+          );
+        })
+        .catch((error) => {
+          swal({
+            title: 'Unable to login.',
+            icon: 'error',
+            text: 'Please check your credentials.',
+            timer: 3000,
+          });
         });
-      });
     } else if (this.emailValidator(this.user.email) == false) {
       swal({
         title: 'Invalid format!',
         icon: 'error',
         text: 'Please enter a valid email.',
         timer: 3000,
-      })
+      });
     }
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
